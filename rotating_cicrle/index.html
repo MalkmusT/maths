@@ -1,45 +1,66 @@
 <!doctype html>
 <html>
 <head>
-  <title>Rotating Circles</title>
+  <title>Spirograph</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-      <label for="fname">r_1 =</label>
-      <input placeholder="4.5" type="text" id="fname" name="multiplier"/><br><br>
-      <label for="lname">r_2 =</label>
-      <input placeholder="1.5" type="text" id="lname" name="module" /><br><br>
-      <label for="lname">w_1 / w_2 =</label>
-      <input placeholder="2.0" type="text" id="wname" name="module" /><br><br>
-      <button onClick="window.location.reload();">Refresh Page</button><br><br>
-      <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
+   <div class="row">
+      <div class="column">
+         <label for="fname">r1</label>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="50" class="slider" id="myRange1">
+         </div>
+         <label for="fname">r2</label>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="50" class="slider" id="myRange2">
+         </div>
+   
+         <label for="lname">w =</label>
+         <input placeholder="2.0" type="text" id="wname" /><br><br>
+         <label for="lname">n =</label>
+         <input placeholder="2000" type="text" id="nname" /><br><br>
+         <button onClick="window.location.reload();">Refresh Page</button><br><br>
+      </div>
+      <div class="column">
+         <div>
+         Es werden die Nullstenn von der Funktion dargestellt:
+         <pre>
+            var arc1 = i * 2 * Math.PI / num_vtx;
+            var arc2 = i * 2 * Math.PI / num_vtx * w;
+
+            coord = 
+            ( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2),
+            r1 * Math.cos(arc1) + r2 * Math.cos(arc2), 
+            0.0);
+         </pre>
+         </div>
+      </div>
+    </div> 
+    <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
       <script>   
          /*======= Creating a canvas =========*/
 
          var canvas = document.getElementById('my_Canvas');
          var gl = canvas.getContext('experimental-webgl');
-         var r2 = parseFloat(document.getElementById('lname').value);
-         var r1 = parseFloat(document.getElementById('fname').value);
-         var w = parseFloat(document.getElementById('wname').value);
+         var r1 = parseFloat(document.getElementById('myRange1').value) / 200.;
+         var r2 = parseFloat(document.getElementById('myRange2').value) / 200.;
+         var w = parseFloat(document.getElementById('wname').value || 2.0);
+         var num_vtx = parseInt(document.getElementById('nname').value || 2000);
          
-         console.log(r1);
-         console.log(r2);
+         console.log(num_vtx);
+         console.log(w);
 
-         let num_vtx = 360
          let vertices = [];
          for(var i=0; i<=num_vtx;i+=0.1)
          {
             var arc1 = i * 2 * Math.PI / num_vtx;
             var arc2 = i * 2 * Math.PI / num_vtx *w;
 
-            vertices.push( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2) 
-            , r1 * Math.cos(arc1) + r2 * Math.cos(arc2),
-             0.0);
+            vertices.push( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2), r1 * Math.cos(arc1) + r2 * Math.cos(arc2), 0.0);
          }
-
-         console.log(vertices);
          
          // Create an empty buffer object
          var vertex_buffer = gl.createBuffer();

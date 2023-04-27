@@ -32,8 +32,8 @@
          var canvas = document.getElementById('my_Canvas');
          var gl = canvas.getContext('experimental-webgl');
 
-         var module = parseInt(document.getElementById('lname').value);
-         var multiplier = parseInt(document.getElementById('fname').value);
+         var module = parseInt(document.getElementById('lname').value || 9);
+         var multiplier = parseInt(document.getElementById('fname').value || 2);
 
          /*======= Defining and storing the geometry ======*/
 
