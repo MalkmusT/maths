@@ -1,0 +1,35 @@
+body {
+    text-align : center;
+  }
+  canvas {
+    display : block;
+    width : 400px;
+    height : 400px;
+    margin : auto;
+    padding : 0;
+    border : NULL;
+    background-color : white;
+  }
+  button {
+    display : block;
+    font-size : inherit;
+    margin : auto;
+    padding : 0.6em;
+  }
+  .column {
+    float: left;
+    width: 45%;
+    vertical-align: text-top;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .slidecontainer {
+    margin: auto;
+    width: 20%; /* Width of the outside container */
+  }
