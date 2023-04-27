@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Visualizing the shape of b^n mod p</title>
+  <title>Rotating Circles</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="style.css" rel="stylesheet" type="text/css"/>
@@ -11,43 +11,36 @@
       <input placeholder="4.5" type="text" id="fname" name="multiplier"/><br><br>
       <label for="lname">r_2 =</label>
       <input placeholder="1.5" type="text" id="lname" name="module" /><br><br>
+      <label for="lname">w_1 / w_2 =</label>
+      <input placeholder="2.0" type="text" id="wname" name="module" /><br><br>
       <button onClick="window.location.reload();">Refresh Page</button><br><br>
       <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
-      <script>
-         var r1 = GetURLParameter('r1');
-         var r2 = GetURLParameter('r2');
-         
+      <script>   
          /*======= Creating a canvas =========*/
 
          var canvas = document.getElementById('my_Canvas');
          var gl = canvas.getContext('experimental-webgl');
+         var r2 = parseFloat(document.getElementById('lname').value);
+         var r1 = parseFloat(document.getElementById('fname').value);
+         var w = parseFloat(document.getElementById('wname').value);
+         
+         console.log(r1);
+         console.log(r2);
 
-         var module = parseInt(document.getElementById('lname').value);
-         var multiplier = parseInt(document.getElementById('fname').value);
-
-         /*======= Defining and storing the geometry ======*/
-
-         let paths = {};
-         var r_old, r = multiplier % module;
-         let orgs = [];
-         for( let i = 0; i < module; ++i)
-         {
-            if( orgs.includes(r) ) break;
-            r_old = r;
-            r = (r * multiplier) % module;
-            paths[r_old] = r;
-            orgs.push(r_old);
-         }
-
+         let num_vtx = 360
          let vertices = [];
-         for( let k in paths )
+         for(var i=0; i<=num_vtx;i+=0.1)
          {
-            var arc = k / module * 2 * Math.PI;
-            vertices.push(Math.sin(arc), Math.cos(arc), 0.0);
-            arc = paths[k] / module * 2 * Math.PI;
-            vertices.push(Math.sin(arc), Math.cos(arc), 0.0);
+            var arc1 = i * 2 * Math.PI / num_vtx;
+            var arc2 = i * 2 * Math.PI / num_vtx *w;
+
+            vertices.push( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2) 
+            , r1 * Math.cos(arc1) + r2 * Math.cos(arc2),
+             0.0);
          }
 
+         console.log(vertices);
+         
          // Create an empty buffer object
          var vertex_buffer = gl.createBuffer();
 
@@ -60,39 +53,14 @@
          // Unbind the buffer
          gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-         let colors = [];
-         for( let k in paths )
-         {
-            let a = Math.min(k, paths[k]);
-            let b = Math.max(k, paths[k]);
-            // normalized line length
-            c = colormap( Math.min(b-a,module - b + a) * 2.0 / module );
-            colors.push(c[0], c[1], c[2]);
-            colors.push(c[0], c[1], c[2]);
-         }
-
-         // create color buffer
-         var color_buffer = gl.createBuffer();
-
-         // Bind appropriate array buffer to it
-         gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-     
-         // Pass the vertex data to the buffer
-         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-
-         // Unbind the buffer
-         gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
         /*=================== Shaders ====================*/
-
+  
         // Vertex shader source code
         var vertCode =`
            attribute vec3 coordinates;
-           attribute vec3 color;
-           varying lowp vec4 vColor;
            void main(void) {
               gl_Position = vec4(coordinates, 1.0);
-              vColor = vec4(color, 0.5);
            }`;
 
         // Create a vertex shader object
@@ -106,9 +74,8 @@
 
         // Fragment shader source code
         var fragCode =`
-           varying lowp vec4 vColor;
            void main(void) {
-              gl_FragColor = vColor;
+              gl_FragColor = vec4(0.0,0.0,0.0,1.0);
            }`;
 
         // Create fragment shader object
@@ -149,14 +116,6 @@
 
         // Enable the attribute
         gl.enableVertexAttribArray(coord);
-
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-        var color = gl.getAttribLocation(shaderProgram, "color");
-        gl.vertexAttribPointer(color, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(color);
-
-
 
         /*============ Drawing the triangle =============*/
 
