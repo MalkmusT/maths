@@ -7,8 +7,10 @@
   <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+   <br><br>
    <div class="row">
       <div class="column">
+         <br><br>
          <label for="fname">r1</label>
          <div class="slidecontainer">
             <input type="range" min="0" max="100" value="50" class="slider" id="myRange1">
@@ -23,23 +25,23 @@
          <label for="lname">n =</label>
          <input placeholder="2000" type="text" id="nname" /><br><br>
          <button onClick="window.location.reload();">Refresh Page</button><br><br>
-      </div>
-      <div class="column">
          <div>
-         Es werden die Nullstenn von der Funktion dargestellt:
-         <pre>
-            var arc1 = i * 2 * Math.PI / num_vtx;
-            var arc2 = i * 2 * Math.PI / num_vtx * w;
-
-            coord = 
-            ( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2),
-            r1 * Math.cos(arc1) + r2 * Math.cos(arc2), 
-            0.0);
-         </pre>
+            Es werden die Nullstenn von der Funktion dargestellt:
+            <pre>
+               var arc1 = i * 2 * Math.PI / num_vtx;
+               var arc2 = i * 2 * Math.PI / num_vtx * w;
+   
+               coord = 
+               ( r1 * Math.sin(arc1)  + r2 * Math.sin(arc2),
+               r1 * Math.cos(arc1) + r2 * Math.cos(arc2), 
+               0.0);
+            </pre>
          </div>
       </div>
-    </div> 
-    <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
+      <div class="column">
+         <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
+      </div>
+   </div>
       <script>   
          /*======= Creating a canvas =========*/
 

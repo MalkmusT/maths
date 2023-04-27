@@ -6,13 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
+
 <body>
-      <label for="fname">b =</label>
-      <input placeholder="2" type="text" id="fname" name="multiplier"/><br><br>
-      <label for="lname">p =</label>
-      <input placeholder="9" type="text" id="lname" name="module" /><br><br>
-      <button onClick="window.location.reload();">Refresh Page</button><br><br>
-      <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
+   <br><br>
+   <div class="row">
+      <div class="column">
+         <br><br>
+         <label for="fname">b =</label>
+         <input placeholder="2" type="text" id="fname" name="multiplier"/><br><br>
+         <label for="lname">p =</label>
+         <input placeholder="9" type="text" id="lname" name="module" /><br><br>
+         <button onClick="window.location.reload();">Refresh Page</button><br><br>
+      </div>
+      <div class="column">
+         <canvas width = "1000" height = "1000" id = "my_Canvas"></canvas>
+      </div>
+   </div>
       <script>
 
          function plasma_color_map( t) { 

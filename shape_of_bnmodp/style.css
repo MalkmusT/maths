@@ -16,3 +16,15 @@ body {
     margin : auto;
     padding : 0.6em;
   }
+  .column {
+    float: left;
+    width: 45%;
+    vertical-align: text-top;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
